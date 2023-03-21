@@ -1,5 +1,6 @@
+import { useState } from "react";
+
 import {
-  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -10,34 +11,70 @@ import {
 } from "react-native";
 import React from "react";
 
-const LoginScreen = () => {
+const initialState = {
+  email: "",
+  password: "",
+};
+
+const LoginScreen = ({ isKeyboard, handleKeyboard, hideKeyboard }) => {
+  const [showPassword, setShowPassword] = useState(true);
+  const [formState, setFormState] = useState(initialState);
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+  const handleEmail = (e) => {
+    setFormState((prev) => ({ ...prev, email: e }));
+  };
+  const handlePassword = (e) => {
+    setFormState((prev) => ({ ...prev, password: e }));
+  };
+
+  const onSubmit = () => {
+    console.log("email ---", formState.email);
+    console.log("password ---", formState.password);
+    setFormState(initialState);
+    hideKeyboard();
+  };
   return (
-    // <View style={styles.container}>
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <View style={styles.form}>
+      <View style={{ ...styles.form, marginBottom: isKeyboard ? -250 : 0 }}>
         <View>
           <Text style={styles.formTitle}>Log In</Text>
         </View>
         <View style={styles.inputContainer}>
           <View>
             <TextInput
+              inputMode="email"
+              value={formState.email}
+              onChangeText={(e) => handleEmail(e)}
+              onSubmitEditing={onSubmit}
+              onFocus={handleKeyboard}
               style={styles.input}
               placeholder="Email"
             />
           </View>
           <View>
             <TextInput
+              value={formState.password}
+              onChangeText={(e) => {
+                handlePassword(e);
+              }}
+              onSubmitEditing={onSubmit}
+              onFocus={handleKeyboard}
               style={styles.input}
-              secureTextEntry={true}
+              secureTextEntry={showPassword ? true : false}
               placeholder="Password"
             />
-            <TouchableOpacity style={styles.showBtn}>
+            <TouchableOpacity
+              style={styles.showBtn}
+              onPress={togglePassword}>
               <Text>Show</Text>
             </TouchableOpacity>
           </View>
         </View>
         <TouchableOpacity
+          onPress={onSubmit}
           style={styles.signInBtn}
           activeOpacity={0.6}>
           <Text style={styles.signInBtnText}>Sign In</Text>
@@ -47,25 +84,17 @@ const LoginScreen = () => {
         </View>
       </View>
     </KeyboardAvoidingView>
-    // </View>
   );
 };
 
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
-    // borderWidth: 5,
-    // borderColor: "red",
-  },
   form: {
     backgroundColor: "#ffffff",
     marginTop: "auto",
     width: "100%",
-    height: 549,
+    paddingBottom: 144,
     paddingHorizontal: 16,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,

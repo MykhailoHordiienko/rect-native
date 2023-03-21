@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Image,
   StyleSheet,
@@ -8,15 +9,42 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from "react-native";
-import React from "react";
 import AvatarAddSvg from "../Utils/AvatarAddSvg";
 
-const RegistrationScreen = () => {
+const initialState = {
+  login: "",
+  email: "",
+  password: "",
+};
+
+const RegistrationScreen = ({ isKeyboard, handleKeyboard, hideKeyboard }) => {
+  const [showPassword, setShowPassword] = useState(true);
+  const [formState, setFormState] = useState(initialState);
+
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+  const handleLogin = (e) => {
+    setFormState((prev) => ({ ...prev, login: e }));
+  };
+  const handleEmail = (e) => {
+    setFormState((prev) => ({ ...prev, email: e }));
+  };
+  const handlePassword = (e) => {
+    setFormState((prev) => ({ ...prev, password: e }));
+  };
+
+  const onSubmit = () => {
+    console.log("login ---", formState.login);
+    console.log("email ---", formState.email);
+    console.log("password ---", formState.password);
+    setFormState(initialState);
+    hideKeyboard();
+  };
   return (
-    // <View style={styles.container}>
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <View style={styles.form}>
+      <View style={{ ...styles.form, marginBottom: isKeyboard ? -180 : 0 }}>
         <View style={styles.avatar}>
           <Image style={styles.avatarImg} />
           <AvatarAddSvg style={styles.addAvatarBtn} />
@@ -27,28 +55,46 @@ const RegistrationScreen = () => {
         <View style={styles.inputContainer}>
           <View>
             <TextInput
+              value={formState.login}
+              onChangeText={(e) => handleLogin(e)}
+              onSubmitEditing={onSubmit}
+              onFocus={handleKeyboard}
               style={styles.input}
               placeholder="Login"
             />
           </View>
           <View>
             <TextInput
+              inputMode="email"
+              value={formState.email}
+              onChangeText={(e) => handleEmail(e)}
+              onSubmitEditing={onSubmit}
+              onFocus={handleKeyboard}
               style={styles.input}
               placeholder="Email"
             />
           </View>
           <View>
             <TextInput
+              value={formState.password}
+              onChangeText={(e) => {
+                handlePassword(e);
+              }}
+              onSubmitEditing={onSubmit}
+              onFocus={handleKeyboard}
               style={styles.input}
-              secureTextEntry={true}
+              secureTextEntry={showPassword ? true : false}
               placeholder="Password"
             />
-            <TouchableOpacity style={styles.showBtn}>
+            <TouchableOpacity
+              style={styles.showBtn}
+              onPress={togglePassword}>
               <Text>Show</Text>
             </TouchableOpacity>
           </View>
         </View>
         <TouchableOpacity
+          onPress={onSubmit}
           style={styles.signUpBtn}
           activeOpacity={0.6}>
           <Text style={styles.signUpBtnText}>Sign Up</Text>
@@ -58,25 +104,17 @@ const RegistrationScreen = () => {
         </View>
       </View>
     </KeyboardAvoidingView>
-    // </View>
   );
 };
 
 export default RegistrationScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
-    // borderWidth: 5,
-    // borderColor: "red",
-  },
   form: {
     backgroundColor: "#ffffff",
     marginTop: "auto",
+    paddingBottom: 78,
     width: "100%",
-    height: 549,
     paddingHorizontal: 16,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
