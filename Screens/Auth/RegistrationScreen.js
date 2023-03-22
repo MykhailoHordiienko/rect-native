@@ -1,6 +1,6 @@
 import { useState } from "react";
-
 import {
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -12,14 +12,15 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import React from "react";
+import { AvatarAddSvg } from "../../Utils/SvgComponents";
 
 const initialState = {
+  login: "",
   email: "",
   password: "",
 };
 
-const LoginScreen = ({ navigation }) => {
+const RegistrationScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [formState, setFormState] = useState(initialState);
   const [isKeyboard, setIsKeyboard] = useState(false);
@@ -32,8 +33,12 @@ const LoginScreen = ({ navigation }) => {
     setIsKeyboard(false);
     Keyboard.dismiss();
   };
+
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
+  };
+  const handleLogin = (e) => {
+    setFormState((prev) => ({ ...prev, login: e }));
   };
   const handleEmail = (e) => {
     setFormState((prev) => ({ ...prev, email: e }));
@@ -43,28 +48,42 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const onSubmit = () => {
+    console.log("login ---", formState.login);
     console.log("email ---", formState.email);
     console.log("password ---", formState.password);
     setFormState(initialState);
     hideKeyboard();
   };
 
-  const navigateRegistration = () => {
-    navigation.navigate("Registration");
+  const navigateLogin = () => {
+    navigation.navigate("Login");
   };
-
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>
       <ImageBackground
         style={styles.bgimg}
-        source={require("../assets/images/Photo-BG.jpg")}>
+        source={require("../../assets/images/Photo-BG.jpg")}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <View style={{ ...styles.form, marginBottom: isKeyboard ? -250 : 0 }}>
+          <View style={{ ...styles.form, marginBottom: isKeyboard ? -180 : 0 }}>
+            <View style={styles.avatar}>
+              <Image style={styles.avatarImg} />
+              <AvatarAddSvg style={styles.addAvatarBtn} />
+            </View>
             <View>
-              <Text style={styles.formTitle}>Log In</Text>
+              <Text style={styles.formTitle}>Register</Text>
             </View>
             <View style={styles.inputContainer}>
+              <View>
+                <TextInput
+                  value={formState.login}
+                  onChangeText={(e) => handleLogin(e)}
+                  onSubmitEditing={onSubmit}
+                  onFocus={handleKeyboard}
+                  style={styles.input}
+                  placeholder="Login"
+                />
+              </View>
               <View>
                 <TextInput
                   inputMode="email"
@@ -97,12 +116,14 @@ const LoginScreen = ({ navigation }) => {
             </View>
             <TouchableOpacity
               onPress={onSubmit}
-              style={styles.signInBtn}
+              style={styles.signUpBtn}
               activeOpacity={0.6}>
-              <Text style={styles.signInBtnText}>Sign In</Text>
+              <Text style={styles.signUpBtnText}>Sign Up</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={navigateRegistration}>
-              <Text style={styles.loginLink}>Or Sign Up</Text>
+            <TouchableOpacity onPress={navigateLogin}>
+              <Text style={styles.loginLink}>
+                All ready have account? Sign In
+              </Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
@@ -111,7 +132,7 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default RegistrationScreen;
 
 const styles = StyleSheet.create({
   bgimg: {
@@ -122,16 +143,30 @@ const styles = StyleSheet.create({
   form: {
     backgroundColor: "#ffffff",
     marginTop: "auto",
+    paddingBottom: 78,
     width: "100%",
-    paddingBottom: 144,
     paddingHorizontal: 16,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
   },
+  avatar: {
+    backgroundColor: "#F6F6F6",
+    width: 120,
+    height: 120,
+    position: "absolute",
+    top: -55,
+    left: "50%",
+    transform: [{ translateX: -50 }],
+    borderRadius: 16,
+  },
+  addAvatarBtn: {
+    position: "absolute",
+    bottom: 20,
+    right: -(25 / 2),
+  },
   formTitle: {
     fontFamily: "JetBrainsMono",
-
-    marginTop: 32,
+    marginTop: 92,
     textAlign: "center",
     fontWeight: 500,
     fontSize: 30,
@@ -146,7 +181,6 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: "JetBrainsMono",
-
     height: 50,
     borderWidth: 1,
     borderColor: "#E8E8E8",
@@ -168,14 +202,14 @@ const styles = StyleSheet.create({
   showBtnText: {
     fontFamily: "JetBrainsMono",
   },
-  signInBtn: {
+  signUpBtn: {
     height: 50,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FF6C00",
     borderRadius: 100,
   },
-  signInBtnText: {
+  signUpBtnText: {
     fontFamily: "JetBrainsMono",
 
     fontWeight: 400,

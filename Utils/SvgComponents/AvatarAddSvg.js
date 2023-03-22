@@ -1,12 +1,11 @@
 import * as React from "react";
 import Svg, { Circle, Path } from "react-native-svg";
 
-const AvatarAddSvg = (props) => (
+export const AvatarAddSvg = (props) => (
   <Svg
     width={25}
     height={25}
     fill="none"
-    // xmlns="http://www.w3.org/2000/svg"
     {...props}>
     <Circle
       cx={12.5}
@@ -23,5 +22,3 @@ const AvatarAddSvg = (props) => (
     />
   </Svg>
 );
-
-export default AvatarAddSvg;
