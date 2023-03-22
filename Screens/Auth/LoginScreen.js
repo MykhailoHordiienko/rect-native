@@ -19,10 +19,11 @@ const initialState = {
   password: "",
 };
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setIsAuth }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [formState, setFormState] = useState(initialState);
   const [isKeyboard, setIsKeyboard] = useState(false);
+  console.log(setIsAuth);
 
   const handleKeyboard = () => {
     setIsKeyboard(true);
@@ -47,6 +48,7 @@ const LoginScreen = ({ navigation }) => {
     console.log("password ---", formState.password);
     setFormState(initialState);
     hideKeyboard();
+    setIsAuth(true);
   };
 
   const navigateRegistration = () => {

@@ -1,17 +1,17 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import { useCallback } from "react";
-
+import { useCallback, useState } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { AuthScreen } from "./Screens/AuthScreen";
+import { HomeScreen } from "./Screens/HomeScreen";
 
 import { NavigationContainer } from "@react-navigation/native";
-import { handleRouting } from "./router";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const routing = handleRouting(true);
+  const [isAuth, setIsAuth] = useState(false);
   const [fontsLoaded] = useFonts({
     JetBrainsMono: require("./assets/fonts/JetBrainsMono-VariableFont_wght.ttf"),
   });
@@ -29,7 +29,11 @@ export default function App() {
       <View
         style={styles.container}
         onLayout={onLayoutRootView}>
-        {routing}
+        {isAuth ? (
+          <HomeScreen setIsAuth={setIsAuth} />
+        ) : (
+          <AuthScreen setIsAuth={setIsAuth} />
+        )}
         <StatusBar style="auto" />
       </View>
     </NavigationContainer>
