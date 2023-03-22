@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  Button,
 } from "react-native";
 import React from "react";
 
@@ -102,12 +101,12 @@ const LoginScreen = ({ navigation }) => {
               activeOpacity={0.6}>
               <Text style={styles.signInBtnText}>Sign In</Text>
             </TouchableOpacity>
-            <View style={styles.loginLink}>
-              <Text style={styles.loginText}>Or </Text>
-              <Button
-                title="Sign Up"
-                onPress={navigateRegistration}
-              />
+            <View>
+              <Text
+                style={styles.loginLink}
+                onPress={navigateRegistration}>
+                Or Sign Up
+              </Text>
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -189,13 +188,8 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   loginLink: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 16,
-  },
-  loginText: {
     fontFamily: "JetBrainsMono",
+    marginTop: 16,
     textAlign: "center",
     fontWeight: 400,
     fontSize: 16,

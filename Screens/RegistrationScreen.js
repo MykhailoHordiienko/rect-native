@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  Button,
 } from "react-native";
 import AvatarAddSvg from "../Utils/AvatarAddSvg";
 
@@ -121,12 +120,12 @@ const RegistrationScreen = ({ navigation }) => {
               activeOpacity={0.6}>
               <Text style={styles.signUpBtnText}>Sign Up</Text>
             </TouchableOpacity>
-            <View style={styles.loginLink}>
-              <Text style={styles.loginText}>All ready have account?</Text>
-              <Button
-                title="Sign In"
-                onPress={navigateLogin}
-              />
+            <View>
+              <Text
+                style={styles.loginLink}
+                onPress={navigateLogin}>
+                All ready have account? Sign In
+              </Text>
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -221,13 +220,8 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   loginLink: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 16,
-  },
-  loginText: {
     fontFamily: "JetBrainsMono",
+    marginTop: 16,
     textAlign: "center",
     fontWeight: 400,
     fontSize: 16,
