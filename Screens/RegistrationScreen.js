@@ -120,13 +120,11 @@ const RegistrationScreen = ({ navigation }) => {
               activeOpacity={0.6}>
               <Text style={styles.signUpBtnText}>Sign Up</Text>
             </TouchableOpacity>
-            <View>
-              <Text
-                style={styles.loginLink}
-                onPress={navigateLogin}>
+            <TouchableOpacity onPress={navigateLogin}>
+              <Text style={styles.loginLink}>
                 All ready have account? Sign In
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
       </ImageBackground>
