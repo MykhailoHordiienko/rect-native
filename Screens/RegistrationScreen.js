@@ -55,6 +55,10 @@ const RegistrationScreen = ({ navigation }) => {
     setFormState(initialState);
     hideKeyboard();
   };
+
+  const navigateLogin = () => {
+    navigation.navigate("Login");
+  };
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>
       <ImageBackground
@@ -119,7 +123,10 @@ const RegistrationScreen = ({ navigation }) => {
             </TouchableOpacity>
             <View style={styles.loginLink}>
               <Text style={styles.loginText}>All ready have account?</Text>
-              <Button title="Sign In" />
+              <Button
+                title="Sign In"
+                onPress={navigateLogin}
+              />
             </View>
           </View>
         </KeyboardAvoidingView>

@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Button,
 } from "react-native";
 import React from "react";
 
@@ -19,7 +20,7 @@ const initialState = {
   password: "",
 };
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [formState, setFormState] = useState(initialState);
   const [isKeyboard, setIsKeyboard] = useState(false);
@@ -48,6 +49,11 @@ const LoginScreen = () => {
     setFormState(initialState);
     hideKeyboard();
   };
+
+  const navigateRegistration = () => {
+    navigation.navigate("Registration");
+  };
+
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>
       <ImageBackground
@@ -98,7 +104,10 @@ const LoginScreen = () => {
             </TouchableOpacity>
             <View style={styles.loginLink}>
               <Text style={styles.loginText}>Or </Text>
-              <Button title="Sign Up" />
+              <Button
+                title="Sign Up"
+                onPress={navigateRegistration}
+              />
             </View>
           </View>
         </KeyboardAvoidingView>

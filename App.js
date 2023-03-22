@@ -33,17 +33,15 @@ export default function App() {
         <AuthStack.Navigator>
           <AuthStack.Screen
             options={{ headerShown: false }}
-            name="Registration"
-            component={RegistrationScreen}
-          />
-          <AuthStack.Screen
-            options={{ headerShown: false }}
             name="Login"
             component={LoginScreen}
           />
+          <AuthStack.Screen
+            options={{ headerShown: false }}
+            name="Registration"
+            component={RegistrationScreen}
+          />
         </AuthStack.Navigator>
-        {/* <RegistrationScreen /> */}
-        {/* <LoginScreen /> */}
         <StatusBar style="auto" />
       </View>
     </NavigationContainer>
