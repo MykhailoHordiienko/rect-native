@@ -86,7 +86,7 @@ const LoginScreen = () => {
                 <TouchableOpacity
                   style={styles.showBtn}
                   onPress={togglePassword}>
-                  <Text>Show</Text>
+                  <Text style={styles.showBtnText}>Show</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -96,8 +96,9 @@ const LoginScreen = () => {
               activeOpacity={0.6}>
               <Text style={styles.signInBtnText}>Sign In</Text>
             </TouchableOpacity>
-            <View>
-              <Text style={styles.loginLink}>Or Sign Up</Text>
+            <View style={styles.loginLink}>
+              <Text style={styles.loginText}>Or </Text>
+              <Button title="Sign Up" />
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -124,6 +125,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
   },
   formTitle: {
+    fontFamily: "JetBrainsMono",
+
     marginTop: 32,
     textAlign: "center",
     fontWeight: 500,
@@ -138,6 +141,8 @@ const styles = StyleSheet.create({
     marginBottom: 43,
   },
   input: {
+    fontFamily: "JetBrainsMono",
+
     height: 50,
     borderWidth: 1,
     borderColor: "#E8E8E8",
@@ -156,6 +161,9 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: "#1B4371",
   },
+  showBtnText: {
+    fontFamily: "JetBrainsMono",
+  },
   signInBtn: {
     height: 50,
     justifyContent: "center",
@@ -164,13 +172,21 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   signInBtnText: {
+    fontFamily: "JetBrainsMono",
+
     fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
     color: "#ffffff",
   },
   loginLink: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 16,
+  },
+  loginText: {
+    fontFamily: "JetBrainsMono",
     textAlign: "center",
     fontWeight: 400,
     fontSize: 16,

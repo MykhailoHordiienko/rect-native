@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Button,
 } from "react-native";
 import AvatarAddSvg from "../Utils/AvatarAddSvg";
 
@@ -20,7 +21,7 @@ const initialState = {
   password: "",
 };
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [formState, setFormState] = useState(initialState);
   const [isKeyboard, setIsKeyboard] = useState(false);
@@ -106,7 +107,7 @@ const RegistrationScreen = () => {
                 <TouchableOpacity
                   style={styles.showBtn}
                   onPress={togglePassword}>
-                  <Text>Show</Text>
+                  <Text style={styles.showBtnText}>Show</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -116,10 +117,9 @@ const RegistrationScreen = () => {
               activeOpacity={0.6}>
               <Text style={styles.signUpBtnText}>Sign Up</Text>
             </TouchableOpacity>
-            <View>
-              <Text style={styles.loginLink}>
-                All ready have account? Sign In
-              </Text>
+            <View style={styles.loginLink}>
+              <Text style={styles.loginText}>All ready have account?</Text>
+              <Button title="Sign In" />
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
     right: -(25 / 2),
   },
   formTitle: {
+    fontFamily: "JetBrainsMono",
     marginTop: 92,
     textAlign: "center",
     fontWeight: 500,
@@ -175,6 +176,7 @@ const styles = StyleSheet.create({
     marginBottom: 43,
   },
   input: {
+    fontFamily: "JetBrainsMono",
     height: 50,
     borderWidth: 1,
     borderColor: "#E8E8E8",
@@ -193,6 +195,9 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: "#1B4371",
   },
+  showBtnText: {
+    fontFamily: "JetBrainsMono",
+  },
   signUpBtn: {
     height: 50,
     justifyContent: "center",
@@ -201,13 +206,21 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   signUpBtnText: {
+    fontFamily: "JetBrainsMono",
+
     fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
     color: "#ffffff",
   },
   loginLink: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 16,
+  },
+  loginText: {
+    fontFamily: "JetBrainsMono",
     textAlign: "center",
     fontWeight: 400,
     fontSize: 16,
