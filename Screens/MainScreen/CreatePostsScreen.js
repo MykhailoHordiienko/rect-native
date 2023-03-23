@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     marginTop: 32,
-    height: 343,
+    height: 240,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",

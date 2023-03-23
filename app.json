@@ -3,11 +3,11 @@
     "name": "reatNative",
     "slug": "reatNative",
     "version": "1.0.0",
-    "orientation": "default",
+    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/_.jpeg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

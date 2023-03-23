@@ -1,8 +1,15 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Image, StyleSheet, Text, View, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
 
 export const PostsScreen = ({ route: { params } }) => {
-  console.log(params.photo);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    if (params) {
+      setPosts((prev) => [...prev, params]);
+    }
+  }, [params]);
+
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
@@ -14,6 +21,20 @@ export const PostsScreen = ({ route: { params } }) => {
           <Text style={styles.userName}>Natali Romanova</Text>
           <Text style={styles.userEmail}>email@example.com</Text>
         </View>
+      </View>
+      <View>
+        <FlatList
+          data={posts}
+          keyExtractor={(item, idx) => idx.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.postContainer}>
+              <Image
+                style={styles.postImg}
+                source={{ uri: item.photo }}
+              />
+            </View>
+          )}
+        />
       </View>
     </View>
   );
@@ -27,7 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginLeft: 16,
-    marginTop: 32,
+    marginVertical: 32,
   },
   userAvatar: {
     borderRadius: 16,
@@ -46,5 +67,13 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 13,
     color: "rgba(33, 33, 33, 0.8)",
+  },
+  postContainer: {
+    marginHorizontal: 16,
+    marginBottom: 34,
+  },
+  postImg: {
+    height: 240,
+    resizeMode: "cover",
   },
 });
