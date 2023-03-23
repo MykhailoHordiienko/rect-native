@@ -1,7 +1,8 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export const PostsScreen = () => {
+export const PostsScreen = ({ route: { params } }) => {
+  console.log(params.photo);
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>

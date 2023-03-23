@@ -5,6 +5,7 @@ import {
   CreatePostsSvg,
   ProfileSvg,
   LogOutSvg,
+  ArrowLeftSvg,
 } from "../Utils/SvgComponents";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -18,6 +19,7 @@ export const HomeScreen = ({ setIsAuth }) => {
   return (
     <>
       <MainTab.Navigator
+        sceneContainerStyle={{ backgroundColor: "#ffffff" }}
         screenOptions={{
           tabBarShowLabel: false,
         }}>
@@ -25,7 +27,7 @@ export const HomeScreen = ({ setIsAuth }) => {
           name="Posts"
           component={PostsScreen}
           options={{
-            headerRightContainerStyle: { paddingRight: 10 },
+            headerRightContainerStyle: { paddingRight: 16 },
             headerRight: () => (
               <TouchableOpacity onPress={handleLogOut}>
                 <LogOutSvg />
@@ -44,7 +46,18 @@ export const HomeScreen = ({ setIsAuth }) => {
         <MainTab.Screen
           name="Create Post"
           component={CreatePostsScreen}
-          options={{
+          options={({ navigation }) => ({
+            headerLeft: () => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("Posts");
+                  }}>
+                  <ArrowLeftSvg />
+                </TouchableOpacity>
+              );
+            },
+            headerLeftContainerStyle: { paddingLeft: 16 },
             tabBarIcon: (focused, color, size) => (
               <CreatePostsSvg
                 size={size}
@@ -52,12 +65,18 @@ export const HomeScreen = ({ setIsAuth }) => {
                 fill={color}
               />
             ),
-          }}
+          })}
         />
         <MainTab.Screen
           name="Profile"
           component={ProfileScreen}
           options={{
+            headerRightContainerStyle: { paddingRight: 16 },
+            headerRight: () => (
+              <TouchableOpacity onPress={handleLogOut}>
+                <LogOutSvg />
+              </TouchableOpacity>
+            ),
             tabBarIcon: (focused, color, size) => (
               <ProfileSvg
                 size={size}

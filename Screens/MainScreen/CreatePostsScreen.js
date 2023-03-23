@@ -1,8 +1,16 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  TextInput,
+} from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { useEffect, useState } from "react";
+import { MapPinSvg } from "../../Utils/SvgComponents";
 
-export const CreatePostsScreen = () => {
+export const CreatePostsScreen = ({ navigation }) => {
   const [snap, setSnap] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [type, setType] = useState(CameraType.back);
@@ -27,6 +35,10 @@ export const CreatePostsScreen = () => {
     setType((current) =>
       current === CameraType.back ? CameraType.front : CameraType.back
     );
+  };
+
+  const sendPhoto = () => {
+    navigation.navigate("Posts", { photo });
   };
   return (
     <View style={styles.container}>
@@ -53,6 +65,37 @@ export const CreatePostsScreen = () => {
           <Image source={require("../../assets/images/camera-switch.png")} />
         </TouchableOpacity>
       </Camera>
+      <Text style={styles.cameraText}>
+        {photo ? "Change Photo" : "Take a Picture"}
+      </Text>
+      <View>
+        <TextInput
+          style={styles.nameInput}
+          placeholder="Name It"
+        />
+      </View>
+      <View>
+        <MapPinSvg style={styles.mapPin} />
+        <TextInput
+          style={styles.geoInput}
+          placeholder="Location"></TextInput>
+      </View>
+      <TouchableOpacity
+        onPress={sendPhoto}
+        disabled={photo ? false : true}
+        style={{
+          ...styles.publishBtn,
+          backgroundColor: photo ? "#FF6C00" : "#F6F6F6",
+        }}
+        activeOpacity={0.6}>
+        <Text
+          style={{
+            ...styles.publishBtnText,
+            color: photo ? "#ffffff" : "#BDBDBD",
+          }}>
+          Publish
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -60,10 +103,10 @@ export const CreatePostsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginHorizontal: 16,
   },
   camera: {
     marginTop: 32,
-    marginHorizontal: 16,
     height: 343,
     borderRadius: 8,
     justifyContent: "center",
@@ -91,5 +134,45 @@ const styles = StyleSheet.create({
     top: 303,
     right: 8,
     borderRadius: 50,
+  },
+  cameraText: {
+    fontFamily: "JetBrainsMono",
+    marginTop: 8,
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#BDBDBD",
+  },
+  nameInput: {
+    fontFamily: "JetBrainsMono",
+    marginTop: 48,
+    paddingBottom: 15,
+    borderBottomWidth: 1,
+    borderColor: "#E8E8E8",
+    color: "#212121",
+  },
+  mapPin: {
+    position: "absolute",
+    bottom: 15,
+  },
+  geoInput: {
+    fontFamily: "JetBrainsMono",
+    marginTop: 32,
+    paddingBottom: 15,
+    paddingLeft: 28,
+    borderBottomWidth: 1,
+    borderColor: "#E8E8E8",
+    color: "#212121",
+  },
+  publishBtn: {
+    height: 50,
+    marginTop: 32,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+  },
+  publishBtnText: {
+    fontFamily: "JetBrainsMono",
+    fontSize: 16,
+    lineHeight: 19,
   },
 });
