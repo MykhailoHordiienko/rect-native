@@ -6,7 +6,7 @@ export const PostsScreen = ({ route: { params } }) => {
 
   useEffect(() => {
     if (params) {
-      setPosts((prev) => [...prev, params]);
+      setPosts((prev) => [params, ...prev]);
     }
   }, [params]);
 
@@ -43,6 +43,7 @@ export const PostsScreen = ({ route: { params } }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom: 100,
   },
   userContainer: {
     flexDirection: "row",
@@ -74,6 +75,6 @@ const styles = StyleSheet.create({
   },
   postImg: {
     height: 240,
-    resizeMode: "cover",
+    borderRadius: 8,
   },
 });

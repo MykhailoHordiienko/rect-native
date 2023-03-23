@@ -78,7 +78,7 @@ const RegistrationScreen = ({ navigation, setIsAuth }) => {
               <View>
                 <TextInput
                   value={formState.login}
-                  onChangeText={(e) => handleLogin(e)}
+                  onChangeText={handleLogin}
                   onSubmitEditing={onSubmit}
                   onFocus={handleKeyboard}
                   style={styles.input}
@@ -89,7 +89,7 @@ const RegistrationScreen = ({ navigation, setIsAuth }) => {
                 <TextInput
                   inputMode="email"
                   value={formState.email}
-                  onChangeText={(e) => handleEmail(e)}
+                  onChangeText={handleEmail}
                   onSubmitEditing={onSubmit}
                   onFocus={handleKeyboard}
                   style={styles.input}
@@ -99,9 +99,7 @@ const RegistrationScreen = ({ navigation, setIsAuth }) => {
               <View>
                 <TextInput
                   value={formState.password}
-                  onChangeText={(e) => {
-                    handlePassword(e);
-                  }}
+                  onChangeText={handlePassword}
                   onSubmitEditing={onSubmit}
                   onFocus={handleKeyboard}
                   style={styles.input}

@@ -5,19 +5,26 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Camera, CameraType } from "expo-camera";
+import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { MapPinSvg } from "../../Utils/SvgComponents";
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [snap, setSnap] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [nameInput, setNameInput] = useState("");
+  const [geo, setGeo] = useState("");
+  const [location, setLocation] = useState(null);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
   const getPermission = async () => {
     await requestPermission();
+    await Location.requestForegroundPermissionsAsync();
   };
 
   useEffect(() => {
@@ -26,8 +33,21 @@ export const CreatePostsScreen = ({ navigation }) => {
     }
   }, []);
 
+  const hideKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
+  const handleNameIt = (e) => {
+    setNameInput(e);
+  };
+  const handleGeo = (e) => {
+    setGeo(e);
+  };
+
   const takePhoto = async () => {
     const result = await snap.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync({});
+    setLocation(location.coords);
     setPhoto(result.uri);
   };
 
@@ -38,65 +58,80 @@ export const CreatePostsScreen = ({ navigation }) => {
   };
 
   const sendPhoto = () => {
-    navigation.navigate("Posts", { photo });
+    if (!photo || !geo || !nameInput) {
+      return;
+    }
+    navigation.navigate("Posts", { photo, location });
+    setGeo("");
+    setNameInput("");
+    setPhoto(null);
+    setLocation(null);
   };
   return (
-    <View style={styles.container}>
-      <Camera
-        type={type}
-        style={styles.camera}
-        ref={setSnap}>
-        {photo && (
-          <View style={styles.checkPhotoContainer}>
-            <Image
-              style={styles.checkPhoto}
-              source={{ uri: photo }}
-            />
-          </View>
-        )}
-        <TouchableOpacity
-          style={styles.buttonAction}
-          onPress={takePhoto}>
-          <Image source={require("../../assets/images/camera-action.png")} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonToggle}
-          onPress={toggleCameraType}>
-          <Image source={require("../../assets/images/camera-switch.png")} />
-        </TouchableOpacity>
-      </Camera>
-      <Text style={styles.cameraText}>
-        {photo ? "Change Photo" : "Take a Picture"}
-      </Text>
-      <View>
-        <TextInput
-          style={styles.nameInput}
-          placeholder="Name It"
-        />
-      </View>
-      <View>
-        <MapPinSvg style={styles.mapPin} />
-        <TextInput
-          style={styles.geoInput}
-          placeholder="Location"></TextInput>
-      </View>
-      <TouchableOpacity
-        onPress={sendPhoto}
-        disabled={photo ? false : true}
-        style={{
-          ...styles.publishBtn,
-          backgroundColor: photo ? "#FF6C00" : "#F6F6F6",
-        }}
-        activeOpacity={0.6}>
-        <Text
-          style={{
-            ...styles.publishBtnText,
-            color: photo ? "#ffffff" : "#BDBDBD",
-          }}>
-          Publish
+    <TouchableWithoutFeedback onPress={hideKeyboard}>
+      <View style={styles.container}>
+        <Camera
+          type={type}
+          style={styles.camera}
+          ref={setSnap}>
+          {photo && (
+            <View style={styles.checkPhotoContainer}>
+              <Image
+                style={styles.checkPhoto}
+                source={{ uri: photo }}
+              />
+            </View>
+          )}
+          <TouchableOpacity
+            style={styles.buttonAction}
+            onPress={takePhoto}>
+            <Image source={require("../../assets/images/camera-action.png")} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonToggle}
+            onPress={toggleCameraType}>
+            <Image source={require("../../assets/images/camera-switch.png")} />
+          </TouchableOpacity>
+        </Camera>
+        <Text style={styles.cameraText}>
+          {photo ? "Change Photo" : "Take a Picture"}
         </Text>
-      </TouchableOpacity>
-    </View>
+        <View>
+          <TextInput
+            onSubmitEditing={sendPhoto}
+            value={nameInput}
+            onChangeText={handleNameIt}
+            style={styles.nameInput}
+            placeholder="Name It"
+          />
+        </View>
+        <View>
+          <MapPinSvg style={styles.mapPin} />
+          <TextInput
+            onSubmitEditing={sendPhoto}
+            value={geo}
+            onChangeText={handleGeo}
+            style={styles.geoInput}
+            placeholder="Location"></TextInput>
+        </View>
+        <TouchableOpacity
+          onPress={sendPhoto}
+          disabled={photo ? false : true}
+          style={{
+            ...styles.publishBtn,
+            backgroundColor: photo ? "#FF6C00" : "#F6F6F6",
+          }}
+          activeOpacity={0.6}>
+          <Text
+            style={{
+              ...styles.publishBtnText,
+              color: photo ? "#ffffff" : "#BDBDBD",
+            }}>
+            Publish
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -131,7 +166,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
-    top: 303,
+    top: 200,
     right: 8,
     borderRadius: 50,
   },

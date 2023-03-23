@@ -70,7 +70,7 @@ const LoginScreen = ({ navigation, setIsAuth }) => {
                 <TextInput
                   inputMode="email"
                   value={formState.email}
-                  onChangeText={(e) => handleEmail(e)}
+                  onChangeText={handleEmail}
                   onSubmitEditing={onSubmit}
                   onFocus={handleKeyboard}
                   style={styles.input}
@@ -80,9 +80,7 @@ const LoginScreen = ({ navigation, setIsAuth }) => {
               <View>
                 <TextInput
                   value={formState.password}
-                  onChangeText={(e) => {
-                    handlePassword(e);
-                  }}
+                  onChangeText={handlePassword}
                   onSubmitEditing={onSubmit}
                   onFocus={handleKeyboard}
                   style={styles.input}
