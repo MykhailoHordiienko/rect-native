@@ -23,7 +23,6 @@ const LoginScreen = ({ navigation, setIsAuth }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [formState, setFormState] = useState(initialState);
   const [isKeyboard, setIsKeyboard] = useState(false);
-  console.log(setIsAuth);
 
   const handleKeyboard = () => {
     setIsKeyboard(true);

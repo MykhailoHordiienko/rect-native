@@ -7,10 +7,14 @@ import {
   LogOutSvg,
 } from "../Utils/SvgComponents";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const MainTab = createBottomTabNavigator();
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ setIsAuth }) => {
+  const handleLogOut = () => {
+    setIsAuth(false);
+  };
   return (
     <>
       <MainTab.Navigator
@@ -22,7 +26,11 @@ export const HomeScreen = () => {
           component={PostsScreen}
           options={{
             headerRightContainerStyle: { paddingRight: 10 },
-            headerRight: () => <LogOutSvg />,
+            headerRight: () => (
+              <TouchableOpacity onPress={handleLogOut}>
+                <LogOutSvg />
+              </TouchableOpacity>
+            ),
             tabBarIcon: (focused, color, size) => (
               <PostsSvg
                 size={size}

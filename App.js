@@ -12,8 +12,10 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [isAuth, setIsAuth] = useState(false);
+
   const [fontsLoaded] = useFonts({
     JetBrainsMono: require("./assets/fonts/JetBrainsMono-VariableFont_wght.ttf"),
+    JetBrainsMono700: require("./assets/fonts/JetBrainsMono-700.ttf"),
   });
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {

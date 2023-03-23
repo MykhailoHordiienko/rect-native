@@ -68,7 +68,7 @@ const RegistrationScreen = ({ navigation, setIsAuth }) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <View style={{ ...styles.form, marginBottom: isKeyboard ? -180 : 0 }}>
             <View style={styles.avatar}>
-              <Image style={styles.avatarImg} />
+              <Image />
               <AvatarAddSvg style={styles.addAvatarBtn} />
             </View>
             <View>
