@@ -61,7 +61,12 @@ export const CreatePostsScreen = ({ navigation }) => {
     if (!photo || !geo || !nameInput) {
       return;
     }
-    navigation.navigate("Posts", { photo, location });
+    navigation.navigate("DefaultPostsScreen", {
+      photo,
+      location,
+      imgName: nameInput,
+      geoName: geo,
+    });
     setGeo("");
     setNameInput("");
     setPhoto(null);
@@ -119,13 +124,13 @@ export const CreatePostsScreen = ({ navigation }) => {
           disabled={photo ? false : true}
           style={{
             ...styles.publishBtn,
-            backgroundColor: photo ? "#FF6C00" : "#F6F6F6",
+            backgroundColor: photo && nameInput && geo ? "#FF6C00" : "#F6F6F6",
           }}
           activeOpacity={0.6}>
           <Text
             style={{
               ...styles.publishBtnText,
-              color: photo ? "#ffffff" : "#BDBDBD",
+              color: photo && nameInput && geo ? "#ffffff" : "#BDBDBD",
             }}>
             Publish
           </Text>

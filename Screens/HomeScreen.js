@@ -4,18 +4,14 @@ import {
   PostsSvg,
   CreatePostsSvg,
   ProfileSvg,
-  LogOutSvg,
   ArrowLeftSvg,
 } from "../Utils/SvgComponents";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 
 const MainTab = createBottomTabNavigator();
 
 export const HomeScreen = ({ setIsAuth }) => {
-  const handleLogOut = () => {
-    setIsAuth(false);
-  };
   return (
     <>
       <MainTab.Navigator
@@ -25,14 +21,9 @@ export const HomeScreen = ({ setIsAuth }) => {
         }}>
         <MainTab.Screen
           name="Posts"
-          component={PostsScreen}
+          children={() => <PostsScreen setIsAuth={setIsAuth} />}
           options={{
-            headerRightContainerStyle: { paddingRight: 16 },
-            headerRight: () => (
-              <TouchableOpacity onPress={handleLogOut}>
-                <LogOutSvg />
-              </TouchableOpacity>
-            ),
+            headerShown: false,
             tabBarIcon: (focused, color, size) => (
               <PostsSvg
                 size={size}
@@ -71,12 +62,6 @@ export const HomeScreen = ({ setIsAuth }) => {
           name="Profile"
           component={ProfileScreen}
           options={{
-            headerRightContainerStyle: { paddingRight: 16 },
-            headerRight: () => (
-              <TouchableOpacity onPress={handleLogOut}>
-                <LogOutSvg />
-              </TouchableOpacity>
-            ),
             tabBarIcon: (focused, color, size) => (
               <ProfileSvg
                 size={size}

@@ -1,80 +1,54 @@
-import { Image, StyleSheet, Text, View, FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { DefaultPostsScreen } from "../NestedPostsScreen";
+import { CommentsScreen } from "../NestedPostsScreen";
+import { MapScreen } from "../NestedPostsScreen";
+import { TouchableOpacity } from "react-native";
+import { ArrowLeftSvg, LogOutSvg } from "../../Utils/SvgComponents";
 
-export const PostsScreen = ({ route: { params } }) => {
-  const [posts, setPosts] = useState([]);
+const NestedScreen = createStackNavigator();
 
-  useEffect(() => {
-    if (params) {
-      setPosts((prev) => [params, ...prev]);
-    }
-  }, [params]);
+export const PostsScreen = ({ setIsAuth }) => {
+  const handleLogOut = () => {
+    setIsAuth(false);
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.userContainer}>
-        <Image
-          source={require("../../assets/images/user-photo.jpg")}
-          style={styles.userAvatar}
-        />
-        <View style={styles.userInfo}>
-          <Text style={styles.userName}>Natali Romanova</Text>
-          <Text style={styles.userEmail}>email@example.com</Text>
-        </View>
-      </View>
-      <View>
-        <FlatList
-          data={posts}
-          keyExtractor={(item, idx) => idx.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.postContainer}>
-              <Image
-                style={styles.postImg}
-                source={{ uri: item.photo }}
-              />
-            </View>
-          )}
-        />
-      </View>
-    </View>
+    <NestedScreen.Navigator screenOptions={{}}>
+      <NestedScreen.Screen
+        name="DefaultPostsScreen"
+        component={DefaultPostsScreen}
+        options={{
+          title: "Posts",
+          headerRightContainerStyle: { paddingRight: 16 },
+          headerRight: () => (
+            <TouchableOpacity onPress={handleLogOut}>
+              <LogOutSvg />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <NestedScreen.Screen
+        name="Comments"
+        component={CommentsScreen}
+      />
+      <NestedScreen.Screen
+        name="Map"
+        component={MapScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("DefaultPostsScreen");
+                }}>
+                <ArrowLeftSvg />
+              </TouchableOpacity>
+            );
+          },
+          headerLeftContainerStyle: { paddingLeft: 16 },
+        })}
+      />
+    </NestedScreen.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingBottom: 100,
-  },
-  userContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 16,
-    marginVertical: 32,
-  },
-  userAvatar: {
-    borderRadius: 16,
-  },
-  userInfo: {
-    marginLeft: 8,
-  },
-  userName: {
-    fontFamily: "JetBrainsMono700",
-    fontSize: 13,
-    lineHeight: 15,
-    color: "#212121",
-  },
-  userEmail: {
-    fontFamily: "JetBrainsMono",
-    fontSize: 11,
-    lineHeight: 13,
-    color: "rgba(33, 33, 33, 0.8)",
-  },
-  postContainer: {
-    marginHorizontal: 16,
-    marginBottom: 34,
-  },
-  postImg: {
-    height: 240,
-    borderRadius: 8,
-  },
-});
