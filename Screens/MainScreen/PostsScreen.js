@@ -21,6 +21,8 @@ export const PostsScreen = ({ setIsAuth }) => {
         options={{
           title: "Posts",
           headerRightContainerStyle: { paddingRight: 16 },
+          headerLeftContainerStyle: { paddingLeft: 16 },
+
           headerRight: () => (
             <TouchableOpacity onPress={handleLogOut}>
               <LogOutSvg />
@@ -31,6 +33,20 @@ export const PostsScreen = ({ setIsAuth }) => {
       <NestedScreen.Screen
         name="Comments"
         component={CommentsScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("DefaultPostsScreen");
+                }}>
+                <ArrowLeftSvg />
+              </TouchableOpacity>
+            );
+          },
+          headerLeftContainerStyle: { paddingLeft: 16 },
+          headerRightContainerStyle: { paddingRight: 16 },
+        })}
       />
       <NestedScreen.Screen
         name="Map"
@@ -47,6 +63,7 @@ export const PostsScreen = ({ setIsAuth }) => {
             );
           },
           headerLeftContainerStyle: { paddingLeft: 16 },
+          headerRightContainerStyle: { paddingRight: 16 },
         })}
       />
     </NestedScreen.Navigator>

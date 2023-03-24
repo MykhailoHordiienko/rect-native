@@ -49,6 +49,8 @@ export const HomeScreen = ({ setIsAuth }) => {
               );
             },
             headerLeftContainerStyle: { paddingLeft: 16 },
+            headerRightContainerStyle: { paddingRight: 16 },
+
             tabBarIcon: (focused, color, size) => (
               <CreatePostsSvg
                 size={size}

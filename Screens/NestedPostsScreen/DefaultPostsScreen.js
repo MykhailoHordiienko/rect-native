@@ -21,6 +21,9 @@ export const DefaultPostsScreen = ({ route: { params }, navigation }) => {
   const handleMap = (dataLocation) => {
     navigation.navigate("Map", { dataLocation });
   };
+  const handleComments = () => {
+    navigation.navigate("Comments");
+  };
 
   return (
     <View style={styles.container}>
@@ -48,13 +51,15 @@ export const DefaultPostsScreen = ({ route: { params }, navigation }) => {
                 <Text style={styles.imgName}>{item.imgName}</Text>
               </View>
               <View style={styles.imgInfoContainer}>
-                <View style={styles.commentContainer}>
-                  <CommentSvg />
-                  <Text style={styles.commentCount}>3</Text>
-                </View>
+                <TouchableOpacity onPress={handleComments}>
+                  <View style={styles.commentContainer}>
+                    <CommentSvg />
+                    <Text style={styles.commentCount}>3</Text>
+                  </View>
+                </TouchableOpacity>
                 <View style={styles.geoContainer}>
                   <MapPinSvg />
-                  <TouchableOpacity onPress={() => handleMap(item.location)}>
+                  <TouchableOpacity onPress={() => handleMap(item)}>
                     <Text style={styles.geoText}>{item.geoName}</Text>
                   </TouchableOpacity>
                 </View>
