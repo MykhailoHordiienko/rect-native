@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const AuthStack = createStackNavigator();
 
-export const AuthScreen = ({ setIsAuth }) => {
+export const AuthScreen = () => {
   return (
     <>
       <AuthStack.Navigator>
@@ -14,7 +14,7 @@ export const AuthScreen = ({ setIsAuth }) => {
           {(props) => (
             <LoginScreen
               {...props}
-              setIsAuth={setIsAuth}
+              //   setIsAuth={setIsAuth}
             />
           )}
         </AuthStack.Screen>
@@ -24,7 +24,7 @@ export const AuthScreen = ({ setIsAuth }) => {
           {(props) => (
             <RegistrationScreen
               {...props}
-              setIsAuth={setIsAuth}
+              //   setIsAuth={setIsAuth}
             />
           )}
         </AuthStack.Screen>

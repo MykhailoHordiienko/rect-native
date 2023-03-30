@@ -3,22 +3,25 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   userId: null,
   nickName: null,
+  isLogInChange: false,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    },
+    updateUserProfile: (state, { payload }) => ({
+      ...state,
+      userId: payload.userId,
+      nickName: payload.nickName,
+    }),
+    updateIsLoginChange: (state, { payload }) => ({
+      ...state,
+      isLogInChange: payload.stateChange,
+    }),
+    signOutProfile: (state) => initialState,
   },
 });
 
-export const {} = authSlice.actions;
+export const { updateUserProfile, updateIsLoginChange, signOutProfile } =
+  authSlice.actions;

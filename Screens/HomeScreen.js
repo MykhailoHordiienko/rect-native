@@ -8,10 +8,13 @@ import {
 } from "../Utils/SvgComponents";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 
 const MainTab = createBottomTabNavigator();
 
-export const HomeScreen = ({ setIsAuth }) => {
+export const HomeScreen = () => {
+  const user = useSelector((state) => state.auth.nickName);
+
   return (
     <>
       <MainTab.Navigator
@@ -21,7 +24,7 @@ export const HomeScreen = ({ setIsAuth }) => {
         }}>
         <MainTab.Screen
           name="Posts"
-          children={() => <PostsScreen setIsAuth={setIsAuth} />}
+          children={() => <PostsScreen />}
           options={{
             headerShown: false,
             tabBarIcon: (focused, color, size) => (

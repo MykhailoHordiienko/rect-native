@@ -5,12 +5,15 @@ import { CommentsScreen } from "../NestedPostsScreen";
 import { MapScreen } from "../NestedPostsScreen";
 import { TouchableOpacity } from "react-native";
 import { ArrowLeftSvg, LogOutSvg } from "../../Utils/SvgComponents";
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "../Redux/Auth/authOperations";
 
 const NestedScreen = createStackNavigator();
 
-export const PostsScreen = ({ setIsAuth }) => {
+export const PostsScreen = () => {
+  const dispatch = useDispatch();
   const handleLogOut = () => {
-    setIsAuth(false);
+    dispatch(authSignOutUser());
   };
 
   return (

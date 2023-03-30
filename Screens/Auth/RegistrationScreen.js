@@ -22,7 +22,7 @@ const initialState = {
   password: "",
 };
 
-const RegistrationScreen = ({ navigation, setIsAuth }) => {
+const RegistrationScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [formState, setFormState] = useState(initialState);
   const [isKeyboard, setIsKeyboard] = useState(false);
@@ -54,7 +54,7 @@ const RegistrationScreen = ({ navigation, setIsAuth }) => {
     dispatch(authSignUpUser(formState));
     setFormState(initialState);
     hideKeyboard();
-    setIsAuth(true);
+    // setIsAuth(true);
   };
 
   const navigateLogin = () => {
