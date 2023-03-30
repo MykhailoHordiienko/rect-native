@@ -13,6 +13,8 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { authSignInUser } from "../Redux/Auth/authOperations";
 
 const initialState = {
   email: "",
@@ -23,6 +25,7 @@ const LoginScreen = ({ navigation, setIsAuth }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [formState, setFormState] = useState(initialState);
   const [isKeyboard, setIsKeyboard] = useState(false);
+  const dispatch = useDispatch();
 
   const handleKeyboard = () => {
     setIsKeyboard(true);
@@ -43,8 +46,7 @@ const LoginScreen = ({ navigation, setIsAuth }) => {
   };
 
   const onSubmit = () => {
-    console.log("email ---", formState.email);
-    console.log("password ---", formState.password);
+    dispatch(authSignInUser(formState));
     setFormState(initialState);
     hideKeyboard();
     setIsAuth(true);

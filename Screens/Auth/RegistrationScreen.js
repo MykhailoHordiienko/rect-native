@@ -12,7 +12,9 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import { useDispatch } from "react-redux";
 import { AvatarAddSvg } from "../../Utils/SvgComponents";
+import { authSignUpUser } from "../Redux/Auth/authOperations";
 
 const initialState = {
   login: "",
@@ -24,6 +26,7 @@ const RegistrationScreen = ({ navigation, setIsAuth }) => {
   const [showPassword, setShowPassword] = useState(true);
   const [formState, setFormState] = useState(initialState);
   const [isKeyboard, setIsKeyboard] = useState(false);
+  const dispatch = useDispatch();
 
   const handleKeyboard = () => {
     setIsKeyboard(true);
@@ -48,9 +51,7 @@ const RegistrationScreen = ({ navigation, setIsAuth }) => {
   };
 
   const onSubmit = () => {
-    console.log("login ---", formState.login);
-    console.log("email ---", formState.email);
-    console.log("password ---", formState.password);
+    dispatch(authSignUpUser(formState));
     setFormState(initialState);
     hideKeyboard();
     setIsAuth(true);
