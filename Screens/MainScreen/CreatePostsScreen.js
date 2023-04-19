@@ -12,6 +12,10 @@ import { Camera, CameraType } from "expo-camera";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { MapPinSvg } from "../../Utils/SvgComponents";
+import { storage, cloudFireStore } from "../../FireBase/config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
+import { useSelector } from "react-redux";
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [snap, setSnap] = useState(null);
@@ -21,6 +25,8 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+
+  const { userId, nickName } = useSelector((state) => state.auth);
 
   const getPermission = async () => {
     await requestPermission();
@@ -61,16 +67,42 @@ export const CreatePostsScreen = ({ navigation }) => {
     if (!photo || !geo || !nameInput) {
       return;
     }
-    navigation.navigate("DefaultPostsScreen", {
-      photo,
-      location,
-      imgName: nameInput,
-      geoName: geo,
-    });
+    navigation.navigate("DefaultPostsScreen");
     setGeo("");
     setNameInput("");
     setPhoto(null);
     setLocation(null);
+    uploadPostToServer();
+  };
+
+  const uploadPhotoToFireStore = async () => {
+    const response = await fetch(photo);
+    const file = await response.blob();
+
+    const timeId = Date.now().toString();
+    const path = `posts/${timeId}`;
+
+    const storageRef = ref(storage, path);
+    await uploadBytes(storageRef, file);
+    const photoUrl = await getDownloadURL(storageRef);
+    return photoUrl;
+  };
+
+  const uploadPostToServer = async () => {
+    const photoUrl = await uploadPhotoToFireStore();
+    try {
+      const docRef = await addDoc(collection(cloudFireStore, "userPosts"), {
+        userId,
+        nickName,
+        photo: photoUrl,
+        location,
+        imgName: nameInput,
+        geoName: geo,
+      });
+      //   console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
   return (
     <TouchableWithoutFeedback onPress={hideKeyboard}>

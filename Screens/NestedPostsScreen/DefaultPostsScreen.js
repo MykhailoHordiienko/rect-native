@@ -8,21 +8,37 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { CommentSvg, MapPinSvg } from "../../Utils/SvgComponents";
+import { collection, getDocs } from "firebase/firestore";
+import { cloudFireStore } from "../../FireBase/config";
 
-export const DefaultPostsScreen = ({ route: { params }, navigation }) => {
+import { useSelector } from "react-redux";
+
+export const DefaultPostsScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
+  const nickName = useSelector((state) => state.auth.nickName);
+
+  const getAllPosts = async () => {
+    let resData = [];
+
+    const querySnapshot = await getDocs(
+      collection(cloudFireStore, "userPosts")
+    );
+    querySnapshot.forEach((doc) => {
+      resData = [...resData, { ...doc.data(), docId: doc.id }];
+    });
+
+    setPosts((prev) => [...resData, ...prev]);
+  };
 
   useEffect(() => {
-    if (params) {
-      setPosts((prev) => [params, ...prev]);
-    }
-  }, [params]);
+    getAllPosts();
+  }, []);
 
   const handleMap = (dataLocation) => {
     navigation.navigate("Map", { dataLocation });
   };
-  const handleComments = () => {
-    navigation.navigate("Comments");
+  const handleComments = (item) => {
+    navigation.navigate("Comments", { item });
   };
 
   return (
@@ -33,8 +49,8 @@ export const DefaultPostsScreen = ({ route: { params }, navigation }) => {
           style={styles.userAvatar}
         />
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>Natali Romanova</Text>
-          <Text style={styles.userEmail}>email@example.com</Text>
+          <Text style={styles.userName}>{nickName}</Text>
+          {/* <Text style={styles.userEmail}>email@example.com</Text> */}
         </View>
       </View>
       <View>
@@ -51,7 +67,7 @@ export const DefaultPostsScreen = ({ route: { params }, navigation }) => {
                 <Text style={styles.imgName}>{item.imgName}</Text>
               </View>
               <View style={styles.imgInfoContainer}>
-                <TouchableOpacity onPress={handleComments}>
+                <TouchableOpacity onPress={() => handleComments(item)}>
                   <View style={styles.commentContainer}>
                     <CommentSvg />
                     <Text style={styles.commentCount}>3</Text>

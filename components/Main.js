@@ -12,9 +12,9 @@ import { authIsLoginChange } from "../Screens/Redux/Auth/authOperations";
 SplashScreen.preventAutoHideAsync();
 
 export default function Main() {
+  const dispatch = useDispatch();
   const isLogIn = useSelector((state) => state.auth.isLogInChange);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(authIsLoginChange());
   }, []);
