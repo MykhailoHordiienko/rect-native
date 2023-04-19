@@ -6,3 +6,4 @@ export { LogOutSvg } from "./LogOutSvg";
 export { MapPinSvg } from "./MapPinSvg";
 export { ArrowLeftSvg } from "./ArrowLeftSvg";
 export { CommentSvg } from "./CommentSvg";
+export { SendMessageSvg } from "./SendMessageSvg";

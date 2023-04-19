@@ -7,13 +7,14 @@ import {
   ArrowLeftSvg,
 } from "../Utils/SvgComponents";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const MainTab = createBottomTabNavigator();
 
 export const HomeScreen = () => {
-  const user = useSelector((state) => state.auth.nickName);
+  //   const user = useSelector((state) => state.auth.nickName);
 
   return (
     <>
@@ -25,8 +26,16 @@ export const HomeScreen = () => {
         <MainTab.Screen
           name="Posts"
           children={() => <PostsScreen />}
-          options={{
+          options={({ route }) => ({
+            tabBarStyle: ((route) => {
+              const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+              if (routeName === "Comments" || routeName === "Map") {
+                return { display: "none" };
+              }
+              return;
+            })(route),
             headerShown: false,
+            // tabBarStyle: { display: "none" },
             tabBarIcon: (focused, color, size) => (
               <PostsSvg
                 size={size}
@@ -34,7 +43,7 @@ export const HomeScreen = () => {
                 fill={color}
               />
             ),
-          }}
+          })}
         />
 
         <MainTab.Screen
