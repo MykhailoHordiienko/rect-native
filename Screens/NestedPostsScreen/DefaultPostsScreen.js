@@ -10,12 +10,13 @@ import React, { useEffect, useState } from "react";
 import { CommentSvg, MapPinSvg } from "../../Utils/SvgComponents";
 import { collection, getDocs } from "firebase/firestore";
 import { cloudFireStore } from "../../FireBase/config";
-
+import { useIsFocused } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-export const DefaultPostsScreen = ({ navigation }) => {
+export const DefaultPostsScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
   const nickName = useSelector((state) => state.auth.nickName);
+  const isFocused = useIsFocused();
 
   const getAllPosts = async () => {
     let resData = [];
@@ -27,12 +28,12 @@ export const DefaultPostsScreen = ({ navigation }) => {
       resData = [...resData, { ...doc.data(), docId: doc.id }];
     });
 
-    setPosts((prev) => [...resData, ...prev]);
+    setPosts([...resData]);
   };
 
   useEffect(() => {
     getAllPosts();
-  }, []);
+  }, [isFocused]);
 
   const handleMap = (dataLocation) => {
     navigation.navigate("Map", { dataLocation });
@@ -70,7 +71,9 @@ export const DefaultPostsScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => handleComments(item)}>
                   <View style={styles.commentContainer}>
                     <CommentSvg />
-                    <Text style={styles.commentCount}>3</Text>
+                    <Text style={styles.commentCount}>
+                      {item.commentsCount}
+                    </Text>
                   </View>
                 </TouchableOpacity>
                 <View style={styles.geoContainer}>

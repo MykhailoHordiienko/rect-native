@@ -63,16 +63,16 @@ export const CreatePostsScreen = ({ navigation }) => {
     );
   };
 
-  const sendPhoto = () => {
+  const sendPhoto = async () => {
     if (!photo || !geo || !nameInput) {
       return;
     }
-    navigation.navigate("DefaultPostsScreen");
     setGeo("");
     setNameInput("");
     setPhoto(null);
     setLocation(null);
-    uploadPostToServer();
+    await uploadPostToServer();
+    navigation.navigate("DefaultPostsScreen");
   };
 
   const uploadPhotoToFireStore = async () => {
