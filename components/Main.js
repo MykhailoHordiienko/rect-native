@@ -1,13 +1,13 @@
+import { authIsLoginChange } from "../Screens/Redux/Auth/authOperations";
+import { AuthScreen } from "../Screens/AuthScreen";
+import { HomeScreen } from "../Screens/HomeScreen";
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { NavigationContainer } from "@react-navigation/native";
-import { HomeScreen } from "../Screens/HomeScreen";
-import { AuthScreen } from "../Screens/AuthScreen";
-import { useDispatch, useSelector } from "react-redux";
-import { authIsLoginChange } from "../Screens/Redux/Auth/authOperations";
 
 SplashScreen.preventAutoHideAsync();
 
