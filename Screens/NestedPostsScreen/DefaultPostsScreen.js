@@ -13,7 +13,7 @@ import { cloudFireStore } from "../../FireBase/config";
 import { useIsFocused } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-export const DefaultPostsScreen = ({ navigation, route }) => {
+export const DefaultPostsScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const nickName = useSelector((state) => state.auth.nickName);
   const isFocused = useIsFocused();
@@ -57,7 +57,7 @@ export const DefaultPostsScreen = ({ navigation, route }) => {
       <View>
         <FlatList
           data={posts}
-          keyExtractor={(item, idx) => idx.toString()}
+          keyExtractor={(item) => item.photo}
           renderItem={({ item }) => (
             <View style={styles.postContainer}>
               <Image

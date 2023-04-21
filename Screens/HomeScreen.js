@@ -35,7 +35,7 @@ export const HomeScreen = () => {
               return;
             })(route),
             headerShown: false,
-            // tabBarStyle: { display: "none" },
+
             tabBarIcon: (focused, color, size) => (
               <PostsSvg
                 size={size}
@@ -76,6 +76,7 @@ export const HomeScreen = () => {
           name="Profile"
           component={ProfileScreen}
           options={{
+            headerShown: false,
             tabBarIcon: (focused, color, size) => (
               <ProfileSvg
                 size={size}
