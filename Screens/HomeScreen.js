@@ -75,7 +75,14 @@ export const HomeScreen = () => {
         <MainTab.Screen
           name="Profile"
           component={ProfileScreen}
-          options={{
+          options={({ route }) => ({
+            tabBarStyle: ((route) => {
+              const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+              if (routeName === "Comments" || routeName === "Map") {
+                return { display: "none" };
+              }
+              return;
+            })(route),
             headerShown: false,
             tabBarIcon: (focused, color, size) => (
               <ProfileSvg
@@ -84,7 +91,7 @@ export const HomeScreen = () => {
                 fill={color}
               />
             ),
-          }}
+          })}
         />
       </MainTab.Navigator>
     </>
