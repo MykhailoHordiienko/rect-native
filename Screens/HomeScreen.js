@@ -14,8 +14,6 @@ import { TouchableOpacity } from "react-native";
 const MainTab = createBottomTabNavigator();
 
 export const HomeScreen = () => {
-  //   const user = useSelector((state) => state.auth.nickName);
-
   return (
     <>
       <MainTab.Navigator
@@ -29,6 +27,7 @@ export const HomeScreen = () => {
           options={({ route }) => ({
             tabBarStyle: ((route) => {
               const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+
               if (routeName === "Comments" || routeName === "Map") {
                 return { display: "none" };
               }
@@ -54,7 +53,7 @@ export const HomeScreen = () => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("Posts");
+                    navigation.goBack();
                   }}>
                   <ArrowLeftSvg />
                 </TouchableOpacity>
